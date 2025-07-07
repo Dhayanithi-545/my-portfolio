@@ -5,6 +5,7 @@ import {
   Send, CheckCircle, AlertCircle, MessageSquare, User, Globe, Code
 } from 'lucide-react';
 import GlowingCard from '../UI/GlowingCard';
+import emailjs from 'emailjs-com';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,11 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+
+  // EmailJS config (replace with your own IDs)
+  const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+  const EMAILJS_USER_ID = 'YOUR_USER_ID';
 
   const socialLinks = [
     {
@@ -74,19 +80,19 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // EmailJS integration (see https://www.emailjs.com/docs/examples/reactjs/)
-    // 1. Sign up at emailjs.com and create a service and template.
-    // 2. Install emailjs-com: npm install emailjs-com
-    // 3. Uncomment and fill in your EmailJS user ID, service ID, and template ID below:
-    /*
-    import emailjs from 'emailjs-com';
-    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
-      from_name: formData.name,
-      from_email: formData.email,
-      subject: formData.subject,
-      message: formData.message,
-      to_email: '545nithi@gmail.com',
-    }, 'YOUR_USER_ID')
+    // EmailJS integration
+    emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        to_email: '545nithi@gmail.com',
+      },
+      EMAILJS_USER_ID
+    )
       .then(() => {
         setIsSubmitting(false);
         setSubmitStatus('success');
@@ -98,14 +104,6 @@ const Contact = () => {
         setSubmitStatus('error');
         setTimeout(() => setSubmitStatus(null), 3000);
       });
-    */
-    // Simulate form submission (remove this when EmailJS is set up)
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setSubmitStatus(null), 3000);
-    }, 2000);
   };
 
   return (
@@ -215,7 +213,7 @@ const Contact = () => {
               <div className="grid grid-cols-2 gap-4">
                 {[
                   { label: 'Projects', value: '10+' },
-                  { label: 'Problems Solved', value: '500+' },
+                  { label: 'Problems Solved', value: '200+' },
                   { label: 'Hackathons', value: '3+' },
                   { label: 'Years Learning', value: '3+' }
                 ].map((stat, index) => (

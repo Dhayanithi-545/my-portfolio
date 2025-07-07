@@ -64,7 +64,7 @@ const Navbar = () => {
                 className="w-12 h-12 rounded-full object-cover shadow-lg"
                 style={{ border: 'none', background: 'none' }}
               />
-            </div>
+              </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">

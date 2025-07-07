@@ -223,7 +223,7 @@ const Projects = () => {
               viewport={{ once: true }}
               className="group"
             >
-              <GlowingCard className="h-full hover:scale-105 transition-transform duration-300">
+              <GlowingCard className="h-full hover:scale-105 transition-transform duration-300 p-4 md:p-6">
                 {/* Project header */}
                 <div className="relative mb-6">
                   <div className="w-full h-48 bg-gradient-to-br from-slate-800 to-slate-700 rounded-lg mb-4 flex items-center justify-center">
@@ -272,19 +272,6 @@ const Projects = () => {
                     </div>
                   </div>
 
-                  {/* Key features */}
-                  <div>
-                    <h4 className="text-sm font-semibold text-white mb-2">Key Features</h4>
-                    <ul className="space-y-1">
-                      {project.features.slice(0, 3).map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-start space-x-2 text-sm text-gray-400">
-                          <div className="w-1.5 h-1.5 bg-purple-400 rounded-full mt-2 flex-shrink-0" />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
                   {/* Project links */}
                   <div className="flex space-x-4 pt-4">
                     <motion.a
@@ -310,41 +297,6 @@ const Projects = () => {
               </GlowingCard>
             </motion.div>
           ))}
-        </motion.div>
-
-        {/* Project stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          viewport={{ once: true }}
-          className="mt-16"
-        >
-          <GlowingCard className="p-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {[
-                { number: '6', label: 'Projects Built', icon: <Code className="w-8 h-8" /> },
-                { number: '500+', label: 'Pets Served', icon: <Database className="w-8 h-8" /> },
-                { number: '100+', label: 'Task Sessions', icon: <Users className="w-8 h-8" /> },
-                { number: '24h', label: 'Rapid Prototype', icon: <Zap className="w-8 h-8" /> }
-              ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="text-center group"
-                >
-                  <div className="w-16 h-16 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    {stat.icon}
-                  </div>
-                  <div className="text-3xl font-bold text-white mb-2">{stat.number}</div>
-                  <div className="text-gray-400 text-sm">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
-          </GlowingCard>
         </motion.div>
       </div>
     </section>

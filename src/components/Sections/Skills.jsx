@@ -8,6 +8,7 @@ import GlowingCard from '../UI/GlowingCard';
 
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState('all');
+  const [showAll, setShowAll] = useState(false);
 
   const skillCategories = [
     { id: 'all', name: 'All Skills', icon: <Code className="w-5 h-5" /> },
@@ -136,6 +137,9 @@ const Skills = () => {
     ? skills 
     : skills.filter(skill => skill.category === activeCategory);
 
+  // Show only first 6 skills if not showAll
+  const skillsToShow = showAll ? filteredSkills : filteredSkills.slice(0, 6);
+
   return (
     <section id="skills" className="relative py-20 overflow-hidden">
       {/* Background decoration */}
@@ -196,7 +200,7 @@ const Skills = () => {
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {filteredSkills.map((skill, index) => (
+          {skillsToShow.map((skill, index) => (
             <motion.div
               key={skill.name}
               initial={{ opacity: 0, y: 20 }}
@@ -239,6 +243,18 @@ const Skills = () => {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Show More Button */}
+        {!showAll && filteredSkills.length > 6 && (
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={() => setShowAll(true)}
+              className="px-6 py-3 rounded-full bg-cyan-400 text-white font-semibold shadow-lg hover:bg-cyan-500 transition-colors duration-300"
+            >
+              Show More
+            </button>
+          </div>
+        )}
 
         {/* Additional skills info */}
         <motion.div
