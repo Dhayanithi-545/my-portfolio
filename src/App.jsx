@@ -18,7 +18,7 @@ function App() {
   useScrollReveal();
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2000);
+    const timer = setTimeout(() => setIsLoading(false), 1500); // Reduced from 2000ms
     return () => clearTimeout(timer);
   }, []);
 
@@ -41,22 +41,22 @@ function App() {
       <div className="text-center">
         <motion.div
           animate={{ rotate: 360 }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full mx-auto mb-4"
+          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+          className="w-14 h-14 border-4 border-cyan-400 border-t-transparent rounded-full mx-auto mb-3"
         />
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="text-2xl font-bold text-cyan-400 tracking-wider"
+          transition={{ delay: 0.3 }}
+          className="text-xl font-bold text-cyan-400 tracking-wider"
         >
           LOADING PORTFOLIO
         </motion.h1>
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: "100%" }}
-          transition={{ duration: 1.5, delay: 0.5 }}
-          className="h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mt-4 rounded-full"
+          transition={{ duration: 1, delay: 0.3 }}
+          className="h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mt-3 rounded-full"
         />
       </div>
     </motion.div>
@@ -64,10 +64,10 @@ function App() {
 
   const CursorTrail = () => (
     <motion.div
-      className="fixed pointer-events-none z-50 w-6 h-6 bg-cyan-400 rounded-full mix-blend-screen"
+      className="fixed pointer-events-none z-50 w-5 h-5 bg-cyan-400 rounded-full mix-blend-screen"
       style={{
-        left: mousePosition.x - 12,
-        top: mousePosition.y - 12,
+        left: mousePosition.x - 10,
+        top: mousePosition.y - 10,
       }}
       animate={{
         scale: [1, 1.2, 1],
@@ -109,14 +109,14 @@ function App() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="fixed right-8 top-1/2 transform -translate-y-1/2 z-20"
+            transition={{ delay: 0.8 }}
+            className="fixed right-6 top-1/2 transform -translate-y-1/2 z-20"
           >
             <div className="flex flex-col space-y-2">
               {['Hero', 'About', 'Skills', 'Projects', 'Education', 'Contact'].map((section, index) => (
                 <motion.div
                   key={section}
-                  className="w-2 h-2 rounded-full bg-cyan-400 opacity-30 hover:opacity-100 transition-opacity cursor-pointer"
+                  className="w-1.5 h-1.5 rounded-full bg-cyan-400 opacity-30 hover:opacity-100 transition-opacity cursor-pointer"
                   whileHover={{ scale: 1.5 }}
                   onClick={() => document.getElementById(section.toLowerCase())?.scrollIntoView({ behavior: 'smooth' })}
                 />
