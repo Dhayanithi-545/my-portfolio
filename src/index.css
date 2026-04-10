@@ -1,311 +1,264 @@
+/* ── Google Fonts ─────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+/* ── Tailwind v4 ──────────────────────────────────────────────────────────── */
 @import "tailwindcss";
 
+/* ── Theme tokens ─────────────────────────────────────────────────────────── */
+@theme {
+  --font-display:    'Playfair Display', Georgia, serif;
+  --font-editorial:  'Lora', Georgia, serif;
+  --font-mono-custom: 'JetBrains Mono', 'Courier New', monospace;
+
+  --color-ink-950:  #0c0a09;
+  --color-ink-900:  #1c1917;
+  --color-ink-800:  #292524;
+  --color-ink-700:  #44403c;
+  --color-ink-600:  #57534e;
+  --color-ink-500:  #78716c;
+  --color-ink-400:  #a8a29e;
+  --color-ink-300:  #d6d3d1;
+  --color-ink-200:  #e7e5e4;
+  --color-ink-100:  #f5f5f4;
+  --color-ink-50:   #fafaf9;
+
+  --color-paper:    #fdf8f0;
+  --color-paper-dark: #111111;
+}
+
+/* ── Base reset ───────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 html {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
 
-/* Custom CSS for extraordinary styling */
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+body {
+  margin: 0;
+  background: var(--color-paper);
 }
 
-::-webkit-scrollbar-track {
-  background: #0f172a;
+/* ── Theme transition — only on intentional toggle, not on page load ──────── */
+/* We add .theme-transitioning class via JS only during the toggle click */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+  transition:
+    background-color 350ms ease,
+    border-color 350ms ease,
+    color 350ms ease,
+    opacity 350ms ease !important;
+  transition-delay: 0ms !important;
 }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(45deg, #06b6d4, #8b5cf6);
-  border-radius: 4px;
+/* ── Typography helpers ───────────────────────────────────────────────────── */
+.font-display    { font-family: var(--font-display); }
+.font-editorial  { font-family: var(--font-editorial); }
+.font-mono-custom { font-family: var(--font-mono-custom); }
+
+/* Drop-cap for newspaper feel */
+.drop-cap::first-letter {
+  float: left;
+  font-family: var(--font-display);
+  font-size: 4em;
+  font-weight: 900;
+  line-height: 0.75;
+  padding-right: 8px;
+  padding-top: 6px;
+  color: #0c0a09;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(45deg, #0891b2, #7c3aed);
+/* ── macOS Dock ───────────────────────────────────────────────────────────── */
+.dock-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 0 10px 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid transparent;
+  transition: background-color 350ms ease, border-color 350ms ease;
 }
 
-/* Custom selection */
-::selection {
-  background: rgba(6, 182, 212, 0.3);
-  color: #ffffff;
+.dock-bar.dock-light {
+  background-color: rgba(253, 248, 240, 0.88);
+  border-color: rgba(120, 113, 108, 0.2);
 }
 
-/* Custom focus styles */
-*:focus {
-  outline: 2px solid #06b6d4;
-  outline-offset: 2px;
+.dock-bar.dock-dark {
+  background-color: rgba(10, 10, 10, 0.88);
+  border-color: rgba(39, 39, 42, 0.8);
 }
 
-/* Custom animations */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+.dock-inner {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 8px 14px 0 14px;
+  border-radius: 20px;
 }
 
-@keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(6, 182, 212, 0.8);
-  }
+.dock-light .dock-inner {
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.12));
+  box-shadow: rgba(255,255,255,0.18) 0px 0px 0px 1px inset;
 }
 
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(139, 92, 246, 0.8);
-  }
+.dock-dark .dock-inner {
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.04));
+  box-shadow: rgba(255,255,255,0.08) 0px 0px 0px 1px inset;
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+/* The divider between social icons and theme toggle */
+.dock-divider {
+  width: 1px;
+  height: 28px;
+  margin: 0 4px 10px 4px;
+  align-self: flex-end;
+  transition: background-color 350ms ease;
 }
+.dock-light .dock-divider { background-color: rgba(120,113,108,0.3); }
+.dock-dark  .dock-divider { background-color: rgba(63,63,70,0.7); }
 
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-/* Custom utility classes */
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-glow {
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite alternate;
-}
-
-.shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-.gradient-text {
-  background: linear-gradient(45deg, #06b6d4, #8b5cf6, #06b6d4);
-  background-size: 200% 200%;
-  animation: gradient-shift 3s ease infinite;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.gradient-border {
+/* Each dock item */
+.dock-item {
   position: relative;
-  background: linear-gradient(45deg, #06b6d4, #8b5cf6);
-  padding: 2px;
-  border-radius: 8px;
+  width: 46px;
+  height: 46px;
+  transition:
+    width cubic-bezier(0.25, 1, 0.5, 1) 160ms,
+    height cubic-bezier(0.25, 1, 0.5, 1) 160ms,
+    margin-bottom cubic-bezier(0.25, 1, 0.5, 1) 160ms;
+  margin-bottom: 0;
+  cursor: pointer;
 }
 
-.gradient-border::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(45deg, #06b6d4, #8b5cf6);
-  border-radius: 8px;
-  z-index: -1;
-  animation: gradient-shift 3s ease infinite;
+/* Hovered item */
+.dock-item:hover {
+  width: 68px;
+  height: 68px;
+  margin-bottom: 14px;
 }
 
-/* Glass morphism effect */
-.glass {
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* Right neighbour (1st) */
+.dock-item:hover + .dock-item {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 8px;
 }
 
-.glass-strong {
-  background: rgba(15, 23, 42, 0.9);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+/* Right neighbour (2nd) */
+.dock-item:hover + .dock-item + .dock-item {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 3px;
 }
 
-/* Neon effects */
-.neon-cyan {
-  text-shadow: 0 0 5px #06b6d4, 0 0 10px #06b6d4, 0 0 15px #06b6d4;
+/* Left neighbour (1st) */
+.dock-item:has(+ .dock-item:hover) {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 8px;
 }
 
-.neon-purple {
-  text-shadow: 0 0 5px #8b5cf6, 0 0 10px #8b5cf6, 0 0 15px #8b5cf6;
+/* Left neighbour (2nd) */
+.dock-item:has(+ .dock-item + .dock-item:hover) {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 3px;
 }
 
-.neon-border-cyan {
-  box-shadow: 0 0 5px #06b6d4, 0 0 10px #06b6d4, inset 0 0 5px #06b6d4;
-}
-
-.neon-border-purple {
-  box-shadow: 0 0 5px #8b5cf6, 0 0 10px #8b5cf6, inset 0 0 5px #8b5cf6;
-}
-
-/* Hover effects */
-.hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.hover-glow:hover {
-  box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
-}
-
-/* Custom button styles */
-.btn-cyber {
-  position: relative;
-  background: linear-gradient(45deg, #06b6d4, #8b5cf6);
-  border: none;
-  color: white;
-  padding: 12px 24px;
-  font-weight: 600;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.btn-cyber::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
+/* The icon button/link inside each dock item */
+.dock-icon {
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
-.btn-cyber:hover::before {
-  left: 100%;
+.dock-light .dock-icon {
+  color: #57534e;
+  background-color: rgba(231, 229, 228, 0.7);
+}
+.dock-light .dock-icon:hover {
+  color: #0c0a09;
+  background-color: rgba(214, 211, 209, 0.85);
 }
 
-.btn-cyber:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(6, 182, 212, 0.3);
+.dock-dark .dock-icon {
+  color: #a1a1aa;
+  background-color: rgba(39, 39, 42, 0.7);
+}
+.dock-dark .dock-icon:hover {
+  color: #4ade80;
+  background-color: rgba(63, 63, 70, 0.75);
 }
 
-/* Particle effects */
-.particle {
+/* Tooltip above dock icon */
+.dock-tooltip {
   position: absolute;
-  width: 2px;
-  height: 2px;
-  background: #06b6d4;
-  border-radius: 50%;
-  animation: particle-float 4s infinite;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 100ms ease-in;
+  background: rgba(15, 15, 15, 0.82);
+  color: #fff;
+  font-family: var(--font-mono-custom);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 5px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
-@keyframes particle-float {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100px) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-/* Loading animation */
-.loading-dots {
-  display: inline-block;
-}
-
-.loading-dots::after {
+.dock-tooltip::after {
   content: '';
-  animation: loading-dots 1.5s infinite;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: rgba(15,15,15,0.82);
 }
 
-@keyframes loading-dots {
-  0%, 20% {
-    content: '';
-  }
-  40% {
-    content: '.';
-  }
-  60% {
-    content: '..';
-  }
-  80%, 100% {
-    content: '...';
-  }
+.dock-item:hover .dock-tooltip,
+.dock-item:focus-within .dock-tooltip {
+  opacity: 1;
 }
 
-/* Custom grid patterns */
-.grid-pattern {
-  background-image: 
-    linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
+/* ── Scrollbar (light) ───────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
 
-/* Responsive text sizing */
-.text-responsive {
-  font-size: clamp(1rem, 4vw, 2rem);
-}
-
-.text-responsive-lg {
-  font-size: clamp(1.5rem, 6vw, 3rem);
-}
-
-.text-responsive-xl {
-  font-size: clamp(2rem, 8vw, 4rem);
-}
-
-/* Custom transitions */
-.transition-all-smooth {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.transition-transform-smooth {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Dark mode enhancements */
-@media (prefers-color-scheme: dark) {
-  .dark-mode-glow {
-    box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
-  }
-}
-
-/* Accessibility improvements */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Print styles */
-@media print {
-  .no-print {
-    display: none !important;
-  }
-  
-  .print-friendly {
-    background: white !important;
-    color: black !important;
-  }
+/* ── Selection highlight ─────────────────────────────────────────────────── */
+::selection {
+  background: #292524;
+  color: #fdf8f0;
 }
