@@ -216,40 +216,107 @@ const SectionLabel = ({ dark, children }) => (
   </div>
 );
 
-// ── macOS Dock ────────────────────────────────────────────────────────────────
-const BottomBar = ({ dark, onToggle }) => (
-  <div className={`dock-bar ${dark ? 'dock-dark' : 'dock-light'}`}>
-    <div className="dock-inner">
+// ── Floating Dock ─────────────────────────────────────────────────────────────
+const FloatingDock = ({ dark, onToggle, visible }) => {
+  const iconBg   = dark ? 'rgba(39,39,42,0.82)'  : 'rgba(231,229,228,0.82)';
+  const iconHover= dark ? 'rgba(63,63,70,0.9)'   : 'rgba(209,207,205,0.9)';
+  const iconClr  = dark ? '#a1a1aa' : '#57534e';
+  const iconClrH = dark ? '#4ade80' : '#0c0a09';
+  const divClr   = dark ? 'rgba(63,63,70,0.6)' : 'rgba(120,113,108,0.3)';
+
+  const itemStyle = (hovered) => ({
+    position: 'relative',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    width: '44px', height: '44px', borderRadius: '12px',
+    background: hovered ? iconHover : iconBg,
+    color: hovered ? iconClrH : iconClr,
+    border: 'none', cursor: 'pointer', textDecoration: 'none',
+    backdropFilter: 'blur(10px)',
+    transition: 'background 180ms ease, color 180ms ease, transform 180ms ease, width 160ms cubic-bezier(.25,1,.5,1), height 160ms cubic-bezier(.25,1,.5,1)',
+    flexShrink: 0,
+  });
+
+  return (
+    <div style={{
+      position: 'fixed', bottom: '20px', left: '50%',
+      transform: `translateX(-50%) translateY(${visible ? '0' : 'calc(100% + 28px)'})`,
+      transition: 'transform 300ms cubic-bezier(.4,0,.2,1)',
+      zIndex: 50,
+      display: 'flex', alignItems: 'center', gap: '6px',
+      padding: '8px 12px',
+      borderRadius: '18px',
+      background: dark ? 'rgba(15,15,15,0.72)' : 'rgba(253,248,240,0.82)',
+      backdropFilter: 'blur(14px)',
+      boxShadow: dark
+        ? 'rgba(255,255,255,0.06) 0 0 0 1px inset, 0 8px 32px rgba(0,0,0,0.5)'
+        : 'rgba(0,0,0,0.10) 0 0 0 1px inset, 0 8px 32px rgba(0,0,0,0.12)',
+    }}>
       {SOCIALS.map(({ label, tooltip, Icon, href, isMailto }) => (
-        <div className="dock-item" key={label}>
-          <a
-            href={href}
-            target={isMailto ? undefined : '_blank'}
+        <DockItem key={label} tooltip={tooltip} itemStyle={itemStyle}>
+          <a href={href} target={isMailto ? undefined : '_blank'}
             rel={isMailto ? undefined : 'noopener noreferrer'}
             aria-label={label}
-            className="dock-icon"
+            style={{ ...itemStyle(false), textDecoration: 'none' }}
+            onMouseEnter={e => { Object.assign(e.currentTarget.style, { background: iconHover, color: iconClrH, transform: 'translateY(-6px) scale(1.12)' }) }}
+            onMouseLeave={e => { Object.assign(e.currentTarget.style, { background: iconBg,    color: iconClr,  transform: 'translateY(0) scale(1)' }) }}
           >
             <Icon size={18} strokeWidth={1.75} />
           </a>
-          <span className="dock-tooltip">{tooltip}</span>
-        </div>
+          <span style={{
+            position: 'absolute', bottom: 'calc(100% + 10px)', left: '50%',
+            transform: 'translateX(-50%)',
+            pointerEvents: 'none',
+            background: 'rgba(15,15,15,0.85)', color: '#fff',
+            fontFamily: "'JetBrains Mono', monospace", fontSize: '10px',
+            fontWeight: 500, letterSpacing: '0.04em',
+            padding: '4px 9px', borderRadius: '6px', whiteSpace: 'nowrap',
+            backdropFilter: 'blur(6px)',
+            opacity: 0, transition: 'opacity 120ms ease',
+          }}
+          className="dock-tt">{tooltip}</span>
+        </DockItem>
       ))}
 
-      <div className="dock-divider" />
+      <div style={{ width: '1px', height: '26px', background: divClr, margin: '0 2px', flexShrink: 0 }} />
 
-      <div className="dock-item">
-        <button
-          onClick={onToggle}
+      <DockItem tooltip={dark ? 'Light mode' : 'Dark mode'} itemStyle={itemStyle}>
+        <button onClick={onToggle}
           aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-          className="dock-icon"
+          style={{ ...itemStyle(false) }}
+          onMouseEnter={e => { Object.assign(e.currentTarget.style, { background: iconHover, color: iconClrH, transform: 'translateY(-6px) scale(1.12)' }) }}
+          onMouseLeave={e => { Object.assign(e.currentTarget.style, { background: iconBg,    color: iconClr,  transform: 'translateY(0) scale(1)' }) }}
         >
           {dark ? <Sun size={18} strokeWidth={1.75} /> : <Moon size={18} strokeWidth={1.75} />}
         </button>
-        <span className="dock-tooltip">{dark ? 'Light mode' : 'Dark mode'}</span>
-      </div>
+        <span style={{
+          position: 'absolute', bottom: 'calc(100% + 10px)', left: '50%',
+          transform: 'translateX(-50%)',
+          pointerEvents: 'none',
+          background: 'rgba(15,15,15,0.85)', color: '#fff',
+          fontFamily: "'JetBrains Mono', monospace", fontSize: '10px',
+          fontWeight: 500, letterSpacing: '0.04em',
+          padding: '4px 9px', borderRadius: '6px', whiteSpace: 'nowrap',
+          backdropFilter: 'blur(6px)',
+          opacity: 0, transition: 'opacity 120ms ease',
+        }}
+        className="dock-tt">{dark ? 'Light mode' : 'Dark mode'}</span>
+      </DockItem>
     </div>
-  </div>
-);
+  );
+};
+
+// Wrapper to show tooltip on hover
+const DockItem = ({ children, tooltip: _t, itemStyle: _s }) => {
+  const ref = useRef(null);
+  const showTip = () => { const tt = ref.current?.querySelector('.dock-tt'); if (tt) tt.style.opacity = '1'; };
+  const hideTip = () => { const tt = ref.current?.querySelector('.dock-tt'); if (tt) tt.style.opacity = '0'; };
+  return (
+    <div ref={ref} style={{ position: 'relative', flexShrink: 0 }}
+      onMouseEnter={showTip} onMouseLeave={hideTip}>
+      {children}
+    </div>
+  );
+};
 
 // ── Contact Form ──────────────────────────────────────────────────────────────
 const ContactForm = ({ dark }) => {
@@ -430,6 +497,21 @@ export default function App() {
     setTimeout(() => document.documentElement.classList.remove('theme-transitioning'), 420);
   };
 
+  // ── Scroll-hide dock ────────────────────────────────────────────────────
+  const [dockVisible, setDockVisible] = useState(true);
+  useEffect(() => {
+    let last = window.scrollY;
+    const onScroll = () => {
+      const cur = window.scrollY;
+      if (cur < 10) { setDockVisible(true); }          // always show near top
+      else if (cur > last + 6) { setDockVisible(false); } // scrolling down
+      else if (last > cur + 4) { setDockVisible(true); }  // scrolling up
+      last = cur;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   // ── Font references ─────────────────────────────────────────────────────
   const disp = "'Playfair Display', Georgia, serif";
   const ser  = "'Lora', Georgia, serif";
@@ -495,7 +577,7 @@ export default function App() {
           pointerEvents: 'none',
         }} />
 
-        <BottomBar dark={dark} onToggle={toggleDark} />
+        <FloatingDock dark={dark} onToggle={toggleDark} visible={dockVisible} />
 
         <main className="port-main" style={{
           position: 'relative', zIndex: 10,
