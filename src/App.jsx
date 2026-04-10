@@ -718,8 +718,7 @@ export default function App() {
                   of BeeBot AI, an AI customer service platform deployed for real businesses.
                 </p>
                 <p style={{ fontFamily: ser, lineHeight: 1.75, fontSize: '14px', color: dark ? '#a1a1aa' : '#44403c', marginBottom: '16px' }}>
-                  Studying Software Product Engineering at Vels Institute of Science, Technology and
-                  Advanced Studies, Chennai. Always building multiple things at once and genuinely open
+                  Always building multiple things at once and genuinely open
                   to taking on more.
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: c.muted }}>
