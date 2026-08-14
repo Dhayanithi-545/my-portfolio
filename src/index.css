@@ -252,13 +252,42 @@ body {
   opacity: 1;
 }
 
-/* ── Scrollbar (light) ───────────────────────────────────────────────────── */
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+
+.dark ::-webkit-scrollbar-thumb { background: #3f3f46; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+
+html { scrollbar-color: #d6d3d1 transparent; scrollbar-width: thin; }
+html.dark { scrollbar-color: #3f3f46 transparent; }
 
 /* ── Selection highlight ─────────────────────────────────────────────────── */
 ::selection {
   background: #292524;
   color: #fdf8f0;
+}
+
+.dark ::selection {
+  background: #4ade80;
+  color: #052e16;
+}
+
+/* ── Dark base so the browser chrome and overscroll match the page ───────── */
+html.dark body { background: #09090b; }
+
+/* ── No horizontal scroll, ever ──────────────────────────────────────────── */
+html, body { overflow-x: clip; }
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .theme-transitioning,
+  .theme-transitioning *,
+  .theme-transitioning *::before,
+  .theme-transitioning *::after {
+    transition-duration: 1ms !important;
+  }
 }
