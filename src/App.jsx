@@ -2,19 +2,63 @@ import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import {
   Sun, Moon, ArrowUpRight, LucideGithub, LucideLinkedin, Mail, MapPin,
-  Send, CheckCircle, AlertCircle, Loader2, ExternalLink,
+  Send, CheckCircle, AlertCircle, Loader2, ExternalLink, Lock,
 } from 'lucide-react';
 
 // ── Assets ────────────────────────────────────────────────────────────────────
-import photo     from './assets/dhayanithi.png';
-import newsBg    from './assets/news.svg';
-import binaryBg  from './assets/binary-black.svg';
-import beebotImg from './assets/beebot.png';
-import resumeImg from './assets/resume-labs.png';
-import timesImg  from './assets/timesofworld.png';
+import photo      from './assets/dhayanithi.png';
+import newsBg     from './assets/news.svg';
+import binaryBg   from './assets/binary-black.svg';
+import beebotImg  from './assets/beebot.png';
+import resumeImg  from './assets/resume-labs.png';
+import timesImg   from './assets/timesofworld.png';
+import giftyImg   from './assets/gifty.png';
+import portalImg  from './assets/research-portal.jpg';
+import arushiImg  from './assets/arushi.jpg';
+import bakesImg   from './assets/sribakes.jpg';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
+// Roles currently running in parallel — rendered as the masthead "wire" strip.
+const NOW = [
+  { label: 'AI Engineer',  org: 'Montra Electric', href: 'https://montraelectric.com' },
+  { label: 'Co-Founder',   org: 'Digvian',         href: 'https://digvian.com' },
+  { label: 'Founder',      org: 'BeeBot AI',       href: 'https://beebot-ai.vercel.app' },
+  { label: 'Freelance',    org: 'Available',       href: '#contact' },
+];
+
 const EXPERIENCE = [
+  {
+    role: 'AI Engineer',
+    company: 'Montra Electric',
+    companyUrl: 'https://montraelectric.com',
+    period: 'Present',
+    location: 'Chennai, India',
+    kicker: 'Internship · Murugappa Group · Electric commercial vehicles',
+    description:
+      'Building AI-powered applications and automations at one of India’s leading electric commercial vehicle manufacturers — taking manual internal workflows and turning them into systems that run themselves.',
+    highlights: [
+      'Developing production AI applications grounded on internal business data and processes',
+      'Designing automations that strip repetitive manual steps out of day-to-day operations',
+      'Working end to end — data plumbing, model orchestration, and the interfaces people actually use',
+    ],
+    tech: ['Python', 'LLM Orchestration', 'RAG', 'Automation'],
+  },
+  {
+    role: 'Co-Founder',
+    company: 'Digvian',
+    companyUrl: 'https://digvian.com',
+    period: 'Present',
+    location: 'Chennai, India',
+    kicker: 'AI-first digital studio',
+    description:
+      'Co-founded Digvian, a studio that covers the whole build instead of a slice of it — websites and SaaS products, AI integrations and chatbots, branding and UI/UX, and the digital marketing that puts the work in front of people. One team where clients would otherwise hire four.',
+    highlights: [
+      'Web and SaaS development — performance-first, SEO-focused builds on React, Next.js, and TypeScript',
+      'AI solutions — custom integrations, chatbots, and workflow automation wired into client systems',
+      'Growth and brand — SEO, paid media, and UI/UX design delivered inside the same engagement',
+    ],
+    tech: ['Next.js', 'TypeScript', 'AI Integrations', 'Digital Marketing'],
+  },
   {
     role: 'Founder and Lead Developer',
     company: 'BeeBot AI',
@@ -29,6 +73,7 @@ const EXPERIENCE = [
       'Built a multi-tenant system supporting independent deployments per business with isolated data contexts',
       'Led the product from zero — concept, design, development, and production deployment',
     ],
+    tech: ['MERN', 'Python', 'RAG', 'Vector DB'],
   },
 ];
 
@@ -51,12 +96,54 @@ const FEATURED = [
     github: 'https://github.com/Dhayanithi-545/resume-builder',
   },
   {
+    title: 'Gifty AI', year: '2026',
+    desc: 'An AI gift-recommendation agent. Feed it contact profiles as JSON and it extracts personal signals, searches live product listings, then returns ranked gift picks — each with its reasoning, a confidence score, a risk flag, and a personalised message you can edit before sending.',
+    tech: ['React', 'FastAPI', 'Groq', 'Serper'],
+    img: giftyImg,
+    live: 'https://gifty-dhaya.vercel.app',
+  },
+  {
     title: 'Times of World', year: '2025',
     desc: 'An AI news aggregator that processes over 500 articles daily with personalised recommendations, cutting content discovery time by 70% for readers who want to stay informed without the scroll fatigue.',
     tech: ['Next.js', 'Supabase', 'TypeScript', 'Inngest'],
     img: timesImg,
     live: 'https://timesofworld.vercel.app',
     github: 'https://github.com/Dhayanithi-545/Times-of-World',
+  },
+];
+
+// Freelance and commissioned builds — shipped for real clients, live in production.
+const CLIENT = [
+  {
+    client: 'Urban Transport Research Centre',
+    title: 'Research portal and public data repository',
+    sector: 'Government-sponsored research centre',
+    year: '2026',
+    // Client is under NDA — no name, no links, and the preview is blurred.
+    confidential: true,
+    desc: 'The public web portal for a government-sponsored urban transport research centre. Publishes the centre’s research programmes, laboratory and traffic-monitoring facilities, faculty and research team profiles, and a download library of datasets, software, and newsletters for external researchers.',
+    tech: ['React', 'Vite', 'Vercel'],
+    img: portalImg,
+  },
+  {
+    client: 'Arushi Sewa Sansthan',
+    title: 'Donation and volunteering platform',
+    sector: 'Non-profit · Delhi',
+    year: '2026',
+    desc: 'A full platform for a Delhi NGO running community kitchens, doorstep meals for elderly citizens, and coaching for underprivileged students. Live donation campaigns with progress tracking, volunteer sign-up, an impact dashboard, programme pages, team profiles, and a blog.',
+    tech: ['Next.js', 'TypeScript', 'Tailwind CSS'],
+    img: arushiImg,
+    live: 'https://arushi-ngo-frontend.vercel.app',
+  },
+  {
+    client: 'Sri Bakes',
+    title: 'Custom cake studio storefront',
+    sector: 'Home bakery · Chennai',
+    year: '2026',
+    desc: 'A storefront for a Chennai home bakery. Category-wise cake galleries, a custom-quote form that captures event, flavour, weight and delivery details up front, and direct WhatsApp handoff for the conversations that actually close the order.',
+    tech: ['React', 'Tailwind CSS', 'WhatsApp'],
+    img: bakesImg,
+    live: 'https://sribakeschennai.com',
   },
 ];
 
@@ -78,8 +165,8 @@ const OTHER = [
 const SKILLS = [
   { label: 'Languages', items: ['Python', 'JavaScript', 'TypeScript', 'Java', 'C++'] },
   { label: 'Frontend',  items: ['React.js', 'Next.js', 'Tailwind CSS', 'ShadCN UI', 'HTML/CSS'] },
-  { label: 'Backend',   items: ['Node.js', 'Express.js', 'Flask', 'REST APIs'] },
-  { label: 'AI and ML', items: ['PyTorch', 'Transformers', 'RAG', 'Scikit-learn', 'Hugging Face', 'Vector DB'] },
+  { label: 'Backend',   items: ['Node.js', 'Express.js', 'FastAPI', 'Flask', 'REST APIs'] },
+  { label: 'AI and ML', items: ['PyTorch', 'Transformers', 'RAG', 'LLM Agents', 'Scikit-learn', 'Hugging Face', 'Vector DB'] },
   { label: 'MLOps',     items: ['MLflow', 'Apache Airflow', 'Pipeline Automation', 'Model Monitoring'] },
   { label: 'Data',      items: ['MongoDB', 'MySQL', 'Supabase', 'SQLite', 'Pandas'] },
   { label: 'Tools',     items: ['Git', 'JWT', 'OAuth2', 'Vercel', 'Netlify', 'Figma', 'n8n', 'Linux'] },
@@ -135,9 +222,68 @@ const GLOBAL_CSS = `
     align-items: flex-start;
   }
 
+  /* ── "Now" wire strip ──────────────────────────────────────────────── */
+  .now-wire {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0 4px;
+  }
+  .now-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    padding: 3px 8px;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  /* ── Client work: image beside copy, stacking on small screens ─────── */
+  .client-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+  }
+  @media (min-width: 620px) {
+    .client-row { grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr); gap: 24px; }
+  }
+
   @media (max-width: 640px) {
     .port-main { padding: 48px 20px 108px !important; }
     .contact-grid { grid-template-columns: 1fr !important; }
+    .now-wire { gap: 0 2px; }
+  }
+
+  /* ── Long headings must never overflow their column ────────────────── */
+  h1, h2, h3 { overflow-wrap: break-word; min-width: 0; }
+
+  /* ── Experience / client meta: right-aligned on desktop, left when it
+        wraps under the role on narrow screens ─────────────────────────── */
+  .exp-meta { text-align: right; }
+  @media (max-width: 560px) {
+    .exp-meta { text-align: left; width: 100%; }
+    /* Drop the pillar and wire separators once those rows wrap — orphaned
+       bars and dots read as debris rather than as a masthead rule. */
+    .pillar-sep, .now-sep { display: none; }
+  }
+
+  /* ── Visible focus ring — never animated, always present ──────────── */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* ── Honour reduced-motion ────────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .proj-img, .now-item, .client-img { transition-duration: 1ms !important; }
+    .proj-img-wrap:hover .proj-img { transform: none; }
   }
 
   /* drop-cap in light mode */
@@ -152,8 +298,9 @@ const GLOBAL_CSS = `
     color: #0c0a09;
   }
 
-  /* focus ring reset for inputs */
-  input:focus, textarea:focus, button:focus-visible {
+  /* Mouse focus on fields stays quiet; keyboard focus keeps the ring above. */
+  input:focus:not(:focus-visible),
+  textarea:focus:not(:focus-visible) {
     outline: none;
   }
 `;
@@ -215,6 +362,77 @@ const SectionLabel = ({ dark, children }) => (
     )}
   </div>
 );
+
+// ── "Now" wire strip ──────────────────────────────────────────────────────────
+// The masthead's live ticker: every role currently running, each one linked.
+const NowWire = ({ dark }) => {
+  const disp = "'Playfair Display', Georgia, serif";
+  const ser  = "'Lora', Georgia, serif";
+  const mono = "'JetBrains Mono', 'Courier New', monospace";
+
+  const hoverBg = dark ? 'rgba(6,78,59,0.22)' : 'rgba(28,25,23,0.06)';
+
+  return (
+    <div style={{
+      marginTop: dark ? '22px' : '14px',
+      paddingTop: '10px',
+      borderTop: dark ? '1px solid #27272a' : '1px solid #d6d3d1',
+    }}>
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: dark ? 'flex-start' : 'center',
+        gap: '8px', marginBottom: '6px',
+      }}>
+        <span style={{
+          display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%',
+          background: dark ? '#4ade80' : '#1c1917', flexShrink: 0,
+        }} />
+        <span style={{
+          fontFamily: dark ? mono : disp,
+          fontSize: '8px', fontWeight: 700,
+          letterSpacing: '0.32em', textTransform: 'uppercase',
+          color: dark ? '#4ade80' : '#57534e',
+        }}>
+          {dark ? 'currently' : 'Currently'}
+        </span>
+      </div>
+
+      <div className="now-wire" style={{ justifyContent: dark ? 'flex-start' : 'center' }}>
+        {NOW.map(({ label, org, href }, i) => {
+          const external = href.startsWith('http');
+          return (
+            <React.Fragment key={org}>
+              <a
+                href={href}
+                className="now-item"
+                target={external ? '_blank' : undefined}
+                rel={external ? 'noopener noreferrer' : undefined}
+                style={{ color: dark ? '#a1a1aa' : '#44403c' }}
+                onMouseEnter={e => { e.currentTarget.style.background = hoverBg; e.currentTarget.style.color = dark ? '#4ade80' : '#0c0a09'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = dark ? '#a1a1aa' : '#44403c'; }}
+              >
+                <span style={{
+                  fontFamily: dark ? mono : disp,
+                  fontSize: '9px', fontWeight: 700,
+                  letterSpacing: '0.14em', textTransform: 'uppercase',
+                  color: dark ? '#52525b' : '#78716c',
+                }}>{label}</span>
+                <span style={{
+                  fontFamily: dark ? mono : ser,
+                  fontSize: '13px', fontWeight: dark ? 500 : 600,
+                }}>{org}</span>
+              </a>
+              {i < NOW.length - 1 && (
+                <span className="now-sep" aria-hidden="true" style={{ color: dark ? '#3f3f46' : '#d6d3d1', fontSize: '11px' }}>
+                  {dark ? '/' : '·'}
+                </span>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 // ── Floating Dock ─────────────────────────────────────────────────────────────
 const FloatingDock = ({ dark, onToggle, visible }) => {
@@ -607,7 +825,7 @@ export default function App() {
                 </p>
                 <h1 style={{
                   fontFamily: disp,
-                  fontSize: 'clamp(2.8rem, 9vw, 5.2rem)',
+                  fontSize: 'clamp(2rem, 11vw, 5.2rem)',
                   fontWeight: 900, color: '#0c0a09',
                   lineHeight: 0.9, letterSpacing: '-0.02em',
                   textTransform: 'uppercase', margin: 0,
@@ -619,21 +837,23 @@ export default function App() {
               {/* Tagline */}
               <div style={{ borderBottom: '2px solid #1c1917', padding: '10px 0 12px' }}>
                 <p style={{ fontFamily: ser, fontStyle: 'italic', color: '#44403c', fontSize: '16px', letterSpacing: '0.15em', margin: 0 }}>
-                  AI Engineer · Founder · Builder
+                  AI Engineer · Co-Founder · Freelance Developer
                 </p>
               </div>
 
               {/* Pillars */}
               <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 0, marginTop: '12px' }}>
-                {['Full-Stack', 'Machine Learning', 'Open Source', 'Open to Projects'].map((label, i, arr) => (
+                {['AI and Automation', 'Full-Stack', 'Machine Learning', 'Open to Freelance'].map((label, i, arr) => (
                   <React.Fragment key={label}>
                     <span style={{ fontFamily: disp, fontWeight: 700, fontSize: '9px', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#78716c', padding: '0 10px' }}>
                       {label}
                     </span>
-                    {i < arr.length - 1 && <span style={{ color: '#d6d3d1' }}>|</span>}
+                    {i < arr.length - 1 && <span className="pillar-sep" aria-hidden="true" style={{ color: '#d6d3d1' }}>|</span>}
                   </React.Fragment>
                 ))}
               </div>
+
+              <NowWire dark={false} />
             </header>
           ) : (
             <header style={{ marginBottom: '56px' }}>
@@ -649,10 +869,10 @@ export default function App() {
                 Dhayanithi Anandan
               </h1>
               <p style={{ fontFamily: ser, color: '#a1a1aa', fontSize: '15px', letterSpacing: '0.15em', marginBottom: '20px' }}>
-                AI Engineer · Founder · Builder
+                AI Engineer · Co-Founder · Freelance Developer
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {['Full-Stack', 'Machine Learning', 'Open Source', 'Open to Projects'].map(tag => (
+                {['AI and Automation', 'Full-Stack', 'Machine Learning', 'Open to Freelance'].map(tag => (
                   <span key={tag} style={{
                     fontFamily: mono, fontSize: '9px', letterSpacing: '0.25em', textTransform: 'uppercase',
                     padding: '3px 10px', borderRadius: '3px',
@@ -661,6 +881,8 @@ export default function App() {
                   }}>{tag}</span>
                 ))}
               </div>
+
+              <NowWire dark={true} />
             </header>
           )}
 
@@ -713,13 +935,24 @@ export default function App() {
                   fontFamily: ser, lineHeight: 1.78, fontSize: '16px',
                   color: dark ? '#d4d4d8' : '#292524', marginBottom: '16px',
                 }}>
-                  Building AI-powered systems and developer tools that ship to production and stay there.
-                  RAG architectures, MLOps pipelines, full-stack web applications. Currently the Founder
-                  of BeeBot AI, an AI customer service platform deployed for real businesses.
+                  Building AI-powered systems that ship to production and stay there. RAG architectures,
+                  MLOps pipelines, agents, and the full-stack web applications around them. Currently an{' '}
+                  <a href="https://montraelectric.com" target="_blank" rel="noopener noreferrer"
+                    style={{ color: c.link, fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+                    AI Engineer at Montra Electric
+                  </a>
+                  , building AI applications and automations for India’s leading electric commercial
+                  vehicle manufacturer.
                 </p>
                 <p style={{ fontFamily: ser, lineHeight: 1.75, fontSize: '14px', color: dark ? '#a1a1aa' : '#44403c', marginBottom: '16px' }}>
-                  Always building multiple things at once and genuinely open
-                  to taking on more.
+                  Alongside that: co-founder of{' '}
+                  <a href="https://digvian.com" target="_blank" rel="noopener noreferrer"
+                    style={{ color: c.link, fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+                    Digvian
+                  </a>
+                  , a studio shipping web, AI, and marketing work end to end — plus freelance builds for
+                  clients from a government research centre to a Delhi NGO to a neighbourhood bakery.
+                  Several things at once is the normal state, and there is room for more.
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: c.muted }}>
                   <MapPin size={13} style={{ flexShrink: 0 }} />
@@ -735,53 +968,68 @@ export default function App() {
           <section style={{ marginBottom: '56px' }}>
             <SectionLabel dark={dark}>Experience</SectionLabel>
 
-            {EXPERIENCE.map((exp) => (
-              <div key={exp.company} style={borderL}>
-                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '8px', marginBottom: '12px' }}>
-                  <div>
-                    <h3 style={{ fontFamily: disp, fontWeight: 700, fontSize: '19px', color: c.heading2, margin: '0 0 4px' }}>{exp.role}</h3>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                      <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer"
-                        style={{ fontFamily: dark ? mono : ser, fontStyle: dark ? 'normal' : 'italic', fontSize: '14px', color: c.link, textDecoration: 'underline', textUnderlineOffset: '3px' }}>
-                        {exp.company}
-                      </a>
-                      {exp.linkedIn && (
-                        <a href={exp.linkedIn} target="_blank" rel="noopener noreferrer"
-                          style={{ color: c.muted, transition: 'color 150ms' }}
-                          onMouseEnter={e => e.currentTarget.style.color = c.accent}
-                          onMouseLeave={e => e.currentTarget.style.color = c.muted}>
-                          <LucideLinkedin size={13} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '44px' }}>
+              {EXPERIENCE.map((exp) => (
+                <div key={exp.company} style={borderL}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '8px', marginBottom: '12px' }}>
+                    <div style={{ minWidth: 0 }}>
+                      <h3 style={{ fontFamily: disp, fontWeight: 700, fontSize: '19px', color: c.heading2, margin: '0 0 4px' }}>{exp.role}</h3>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                        <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer"
+                          style={{ fontFamily: dark ? mono : ser, fontStyle: dark ? 'normal' : 'italic', fontSize: '14px', color: c.link, textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+                          {exp.company}
                         </a>
+                        {exp.linkedIn && (
+                          <a href={exp.linkedIn} target="_blank" rel="noopener noreferrer" aria-label={`${exp.company} on LinkedIn`}
+                            style={{ color: c.muted, transition: 'color 150ms' }}
+                            onMouseEnter={e => e.currentTarget.style.color = c.accent}
+                            onMouseLeave={e => e.currentTarget.style.color = c.muted}>
+                            <LucideLinkedin size={13} />
+                          </a>
+                        )}
+                      </div>
+                      {exp.kicker && (
+                        <p style={{
+                          fontFamily: dark ? mono : ser,
+                          fontStyle: dark ? 'normal' : 'italic',
+                          fontSize: '11px', color: c.muted, marginTop: '5px',
+                        }}>{exp.kicker}</p>
                       )}
                     </div>
+                    <div className="exp-meta" style={{ flexShrink: 0 }}>
+                      <span style={{ fontFamily: dark ? mono : ser, fontStyle: 'italic', fontSize: '12px', color: c.muted }}>{exp.period}</span>
+                      <p style={{ fontFamily: ser, fontStyle: 'italic', fontSize: '11px', color: c.muted, marginTop: '2px' }}>{exp.location}</p>
+                    </div>
                   </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <span style={{ fontFamily: dark ? mono : ser, fontStyle: 'italic', fontSize: '12px', color: c.muted }}>{exp.period}</span>
-                    <p style={{ fontFamily: ser, fontStyle: 'italic', fontSize: '11px', color: c.muted, marginTop: '2px' }}>{exp.location}</p>
-                  </div>
+
+                  <p style={{ fontFamily: ser, lineHeight: 1.78, fontSize: '15px', color: c.body, marginBottom: '16px' }}>{exp.description}</p>
+
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {exp.highlights.map((h) => (
+                      <li key={h} style={{ display: 'flex', gap: '10px', fontFamily: ser, lineHeight: 1.7, fontSize: '14px', color: c.body }}>
+                        <span style={{ flexShrink: 0, marginTop: '2px', color: c.accent, fontWeight: 700 }}>{dark ? '›' : '·'}</span>
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {exp.tech && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px', marginTop: '14px' }}>
+                      {exp.tech.map((t) => <Tag key={t} dark={dark}>{t}</Tag>)}
+                    </div>
+                  )}
                 </div>
-
-                <p style={{ fontFamily: ser, lineHeight: 1.78, fontSize: '15px', color: c.body, marginBottom: '16px' }}>{exp.description}</p>
-
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {exp.highlights.map((h) => (
-                    <li key={h} style={{ display: 'flex', gap: '10px', fontFamily: ser, lineHeight: 1.7, fontSize: '14px', color: c.body }}>
-                      <span style={{ flexShrink: 0, marginTop: '2px', color: c.accent, fontWeight: 700 }}>{dark ? '›' : '·'}</span>
-                      {h}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+              ))}
+            </div>
           </section>
 
           {/* <Rule dark={dark} /> */}
 
           {/* ══ WORK ════════════════════════════════════════════════════ */}
           <section style={{ marginBottom: '56px' }}>
-            <SectionLabel dark={dark}>Work</SectionLabel>
+            <SectionLabel dark={dark}>Selected Work</SectionLabel>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '64px', marginBottom: '56px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '64px' }}>
               {FEATURED.map((p) => (
                 <div key={p.title}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
@@ -845,37 +1093,156 @@ export default function App() {
               ))}
             </div>
 
-            {/* Other projects */}
-            <div style={{ paddingTop: '28px', borderTop: dark ? '1px solid #27272a' : '1px solid #a8a29e' }}>
-              <p style={{
-                fontFamily: dark ? mono : disp, fontSize: '9px', letterSpacing: '0.3em',
-                textTransform: 'uppercase', fontWeight: 700, marginBottom: '28px',
-                color: dark ? '#52525b' : '#78716c',
-              }}>Also notable</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-                {OTHER.map((p) => (
-                  <div key={p.title}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                      <h3 style={{ fontFamily: disp, fontWeight: 700, fontSize: '17px', color: c.heading2, margin: 0 }}>{p.title}</h3>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginLeft: '16px', flexShrink: 0 }}>
-                        <span style={{ fontFamily: dark ? mono : ser, fontStyle: 'italic', fontSize: '12px', color: c.muted }}>{p.year}</span>
-                        {p.github && (
-                          <a href={p.github} target="_blank" rel="noopener noreferrer" title="Repository"
-                            style={{ color: c.muted, transition: 'color 150ms' }}
-                            onMouseEnter={e => e.currentTarget.style.color = c.accent}
-                            onMouseLeave={e => e.currentTarget.style.color = c.muted}>
-                            <LucideGithub size={14} />
-                          </a>
+          </section>
+
+          {/* ══ CLIENT WORK ═════════════════════════════════════════════ */}
+          <section style={{ marginBottom: '56px' }}>
+            <SectionLabel dark={dark}>Client and Freelance Work</SectionLabel>
+
+            <p style={{
+              fontFamily: ser, lineHeight: 1.75, fontSize: '14px',
+              color: dark ? '#a1a1aa' : '#44403c', marginBottom: '36px',
+            }}>
+              Commissioned builds, live in production and in daily use — a government research
+              centre, a Delhi non-profit, and a neighbourhood bakery. Different worlds, same brief:
+              make it fast, make it clear, make it work on a phone. Some clients are under NDA, so a
+              few previews here are blurred and unlinked.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '44px' }}>
+              {CLIENT.map((p) => (
+                <div key={p.client} className="client-row">
+                  {/* Screenshot — a plain frame when the client is under NDA,
+                      a link to the live site otherwise. */}
+                  {(() => {
+                    const frame = (
+                      <div style={{
+                        overflow: 'hidden', aspectRatio: '16/10',
+                        border: dark ? '1px solid #27272a' : '2px solid #1c1917',
+                        borderRadius: dark ? '6px' : '2px',
+                        boxShadow: dark ? '0 6px 24px rgba(0,0,0,0.45)' : '4px 4px 0px 0px rgba(28,25,23,0.85)',
+                      }}>
+                        <img
+                          src={p.img}
+                          alt={p.confidential
+                            ? 'Blurred preview — client under NDA'
+                            : `${p.client} website`}
+                          className="proj-img"
+                        />
+                      </div>
+                    );
+
+                    return p.confidential ? (
+                      <div>
+                        {frame}
+                        <p style={{
+                          display: 'flex', alignItems: 'center', gap: '5px', marginTop: '7px',
+                          fontFamily: dark ? mono : ser,
+                          fontStyle: dark ? 'normal' : 'italic',
+                          fontSize: '10px', letterSpacing: '0.04em',
+                          color: c.muted,
+                        }}>
+                          <Lock size={10} style={{ flexShrink: 0 }} />
+                          Preview blurred · client under NDA
+                        </p>
+                      </div>
+                    ) : (
+                      <a href={p.live} target="_blank" rel="noopener noreferrer"
+                        className="proj-img-wrap"
+                        aria-label={`${p.client} — open the live site`}
+                        style={{ display: 'block', textDecoration: 'none' }}>
+                        {frame}
+                      </a>
+                    );
+                  })()}
+
+                  {/* Copy */}
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px', marginBottom: '8px' }}>
+                      <div style={{ minWidth: 0 }}>
+                        <h3 style={{ fontFamily: disp, fontWeight: 900, fontSize: '18px', color: c.heading2, margin: '0 0 3px' }}>
+                          {p.client}
+                        </h3>
+                        <p style={{
+                          fontFamily: dark ? mono : ser, fontStyle: dark ? 'normal' : 'italic',
+                          fontSize: '11px', letterSpacing: '0.04em', color: c.muted,
+                        }}>{p.sector}</p>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0, marginTop: '3px' }}>
+                        {p.confidential ? (
+                          <Lock size={13} style={{ color: c.muted }} aria-label="Client under NDA" />
+                        ) : (
+                          <>
+                            {p.github && (
+                              <a href={p.github} target="_blank" rel="noopener noreferrer" aria-label={`${p.client} repository`}
+                                style={{ color: c.muted, transition: 'color 150ms' }}
+                                onMouseEnter={e => e.currentTarget.style.color = c.accent}
+                                onMouseLeave={e => e.currentTarget.style.color = c.muted}>
+                                <LucideGithub size={14} />
+                              </a>
+                            )}
+                            <a href={p.live} target="_blank" rel="noopener noreferrer" aria-label={`${p.client} live site`}
+                              style={{ color: c.muted, transition: 'color 150ms' }}
+                              onMouseEnter={e => e.currentTarget.style.color = c.accent}
+                              onMouseLeave={e => e.currentTarget.style.color = c.muted}>
+                              <ArrowUpRight size={15} />
+                            </a>
+                          </>
                         )}
                       </div>
                     </div>
-                    <p style={{ fontFamily: ser, lineHeight: 1.75, fontSize: '14px', color: dark ? '#a1a1aa' : '#44403c', marginBottom: '10px' }}>{p.desc}</p>
+
+                    <p style={{
+                      fontFamily: disp, fontWeight: 700, fontSize: '14px',
+                      color: c.body2, marginBottom: '9px', lineHeight: 1.4,
+                    }}>{p.title}</p>
+
+                    <p style={{ fontFamily: ser, lineHeight: 1.72, fontSize: '14px', color: c.body, marginBottom: '12px' }}>{p.desc}</p>
+
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px' }}>
                       {p.tech.map((t) => <Tag key={t} dark={dark}>{t}</Tag>)}
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ══ ALSO NOTABLE ════════════════════════════════════════════ */}
+          <section style={{ marginBottom: '56px' }}>
+            <SectionLabel dark={dark}>Also Notable</SectionLabel>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+              {OTHER.map((p) => (
+                <div key={p.title}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                    <h3 style={{ fontFamily: disp, fontWeight: 700, fontSize: '17px', color: c.heading2, margin: 0 }}>{p.title}</h3>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginLeft: '16px', flexShrink: 0 }}>
+                      <span style={{ fontFamily: dark ? mono : ser, fontStyle: 'italic', fontSize: '12px', color: c.muted }}>{p.year}</span>
+                      {p.github && (
+                        <a href={p.github} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} repository`}
+                          style={{ color: c.muted, transition: 'color 150ms' }}
+                          onMouseEnter={e => e.currentTarget.style.color = c.accent}
+                          onMouseLeave={e => e.currentTarget.style.color = c.muted}>
+                          <LucideGithub size={14} />
+                        </a>
+                      )}
+                      {p.live && (
+                        <a href={p.live} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} live site`}
+                          style={{ color: c.muted, transition: 'color 150ms' }}
+                          onMouseEnter={e => e.currentTarget.style.color = c.accent}
+                          onMouseLeave={e => e.currentTarget.style.color = c.muted}>
+                          <ArrowUpRight size={14} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  <p style={{ fontFamily: ser, lineHeight: 1.75, fontSize: '14px', color: dark ? '#a1a1aa' : '#44403c', marginBottom: '10px' }}>{p.desc}</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px' }}>
+                    {p.tech.map((t) => <Tag key={t} dark={dark}>{t}</Tag>)}
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
 
@@ -936,16 +1303,21 @@ export default function App() {
           {/* <Rule dark={dark} /> */}
 
           {/* ══ CONTACT ═════════════════════════════════════════════════ */}
-          <section style={{ marginBottom: '80px' }}>
+          <section id="contact" style={{ marginBottom: '80px', scrollMarginTop: '32px' }}>
             <SectionLabel dark={dark}>Get in Touch</SectionLabel>
 
             <div style={{ marginBottom: '36px' }}>
               <p style={{ fontFamily: disp, fontWeight: 700, fontSize: '18px', color: c.heading2, marginBottom: '10px' }}>
-                Open to internships, collaborations, freelance projects, and anything interesting.
+                Taking on freelance projects, collaborations, and anything interesting.
               </p>
               <p style={{ fontFamily: ser, lineHeight: 1.75, fontSize: '15px', color: dark ? '#a1a1aa' : '#44403c' }}>
-                Already running several projects at once — taking on more is the norm, not the exception.
-                If you have something worth building, reach out below.
+                Websites, AI applications, automations, or the whole build end to end — solo, or through{' '}
+                <a href="https://digvian.com" target="_blank" rel="noopener noreferrer"
+                  style={{ color: c.link, fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+                  Digvian
+                </a>
+                {' '}when a project needs a full team. Running several things at once is already the norm here,
+                so there is room for one more. Tell me what you have in mind.
               </p>
             </div>
 
