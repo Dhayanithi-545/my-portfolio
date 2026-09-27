@@ -21,8 +21,8 @@ import bakesImg   from './assets/sribakes.jpg';
 // Roles currently running in parallel — rendered as the masthead "wire" strip.
 const NOW = [
   { label: 'AI Engineer',  org: 'Montra Electric', href: 'https://montraelectric.com' },
-  { label: 'Co-Founder',   org: 'Digvian',         href: 'https://digvian.com' },
-  { label: 'Founder',      org: 'BeeBot AI',       href: 'https://beebot-ai.vercel.app' },
+  // { label: 'Co-Founder',   org: 'Digvian',         href: 'https://digvian.com' },
+  // { label: 'Founder',      org: 'BeeBot AI',       href: 'https://beebot-ai.vercel.app' },
   { label: 'Freelance',    org: 'Available',       href: '#contact' },
 ];
 
@@ -43,38 +43,38 @@ const EXPERIENCE = [
     ],
     tech: ['Python', 'LLM Orchestration', 'RAG', 'Automation'],
   },
-  {
-    role: 'Co-Founder',
-    company: 'Digvian',
-    companyUrl: 'https://digvian.com',
-    period: 'Present',
-    location: 'Chennai, India',
-    kicker: 'AI-first digital studio',
-    description:
-      'Co-founded Digvian, a studio that covers the whole build instead of a slice of it — websites and SaaS products, AI integrations and chatbots, branding and UI/UX, and the digital marketing that puts the work in front of people. One team where clients would otherwise hire four.',
-    highlights: [
-      'Web and SaaS development — performance-first, SEO-focused builds on React, Next.js, and TypeScript',
-      'AI solutions — custom integrations, chatbots, and workflow automation wired into client systems',
-      'Growth and brand — SEO, paid media, and UI/UX design delivered inside the same engagement',
-    ],
-    tech: ['Next.js', 'TypeScript', 'AI Integrations', 'Digital Marketing'],
-  },
-  {
-    role: 'Founder and Lead Developer',
-    company: 'BeeBot AI',
-    companyUrl: 'https://beebot-ai.vercel.app',
-    linkedIn: 'https://linkedin.com/company/beebotai/',
-    period: 'Jan 2026 — Present',
-    location: 'Chennai, India',
-    description:
-      'Founded and architected BeeBot AI, a plug-and-play AI customer service platform for businesses. Built the full product stack: RAG pipeline, MERN backend, Python AI microservice, and a multi-tenant admin dashboard.',
-    highlights: [
-      'Designed a RAG architecture that grounds LLM responses on business-specific FAQs and policies, eliminating hallucinations entirely',
-      'Built a multi-tenant system supporting independent deployments per business with isolated data contexts',
-      'Led the product from zero — concept, design, development, and production deployment',
-    ],
-    tech: ['MERN', 'Python', 'RAG', 'Vector DB'],
-  },
+  // {
+  //   role: 'Co-Founder',
+  //   company: 'Digvian',
+  //   companyUrl: 'https://digvian.com',
+  //   period: 'Present',
+  //   location: 'Chennai, India',
+  //   kicker: 'AI-first digital studio',
+  //   description:
+  //     'Co-founded Digvian, a studio that covers the whole build instead of a slice of it — websites and SaaS products, AI integrations and chatbots, branding and UI/UX, and the digital marketing that puts the work in front of people. One team where clients would otherwise hire four.',
+  //   highlights: [
+  //     'Web and SaaS development — performance-first, SEO-focused builds on React, Next.js, and TypeScript',
+  //     'AI solutions — custom integrations, chatbots, and workflow automation wired into client systems',
+  //     'Growth and brand — SEO, paid media, and UI/UX design delivered inside the same engagement',
+  //   ],
+  //   tech: ['Next.js', 'TypeScript', 'AI Integrations', 'Digital Marketing'],
+  // },
+  // {
+  //   role: 'Founder and Lead Developer',
+  //   company: 'BeeBot AI',
+  //   companyUrl: 'https://beebot-ai.vercel.app',
+  //   linkedIn: 'https://linkedin.com/company/beebotai/',
+  //   period: 'Jan 2026 — Present',
+  //   location: 'Chennai, India',
+  //   description:
+  //     'Founded and architected BeeBot AI, a plug-and-play AI customer service platform for businesses. Built the full product stack: RAG pipeline, MERN backend, Python AI microservice, and a multi-tenant admin dashboard.',
+  //   highlights: [
+  //     'Designed a RAG architecture that grounds LLM responses on business-specific FAQs and policies, eliminating hallucinations entirely',
+  //     'Built a multi-tenant system supporting independent deployments per business with isolated data contexts',
+  //     'Led the product from zero — concept, design, development, and production deployment',
+  //   ],
+  //   tech: ['MERN', 'Python', 'RAG', 'Vector DB'],
+  // },
 ];
 
 const FEATURED = [
@@ -166,7 +166,7 @@ const SKILLS = [
   { label: 'Languages', items: ['Python', 'JavaScript', 'TypeScript', 'Java', 'C++'] },
   { label: 'Frontend',  items: ['React.js', 'Next.js', 'Tailwind CSS', 'ShadCN UI', 'HTML/CSS'] },
   { label: 'Backend',   items: ['Node.js', 'Express.js', 'FastAPI', 'Flask', 'REST APIs'] },
-  { label: 'AI and ML', items: ['PyTorch', 'Transformers', 'RAG', 'LLM Agents', 'Scikit-learn', 'Hugging Face', 'Vector DB'] },
+  { label: 'AI and ML', items: ['PyTorch', 'Transformers', 'RAG', 'LLM Agents', 'AI Agents', 'Agentic AI Systems', 'MCP Server', 'LangGraph', 'LangChain', 'Scikit-learn', 'Hugging Face', 'Vector DB'] },
   { label: 'MLOps',     items: ['MLflow', 'Apache Airflow', 'Pipeline Automation', 'Model Monitoring'] },
   { label: 'Data',      items: ['MongoDB', 'MySQL', 'Supabase', 'SQLite', 'Pandas'] },
   { label: 'Tools',     items: ['Git', 'JWT', 'OAuth2', 'Vercel', 'Netlify', 'Figma', 'n8n', 'Linux'] },
@@ -837,7 +837,7 @@ export default function App() {
               {/* Tagline */}
               <div style={{ borderBottom: '2px solid #1c1917', padding: '10px 0 12px' }}>
                 <p style={{ fontFamily: ser, fontStyle: 'italic', color: '#44403c', fontSize: '16px', letterSpacing: '0.15em', margin: 0 }}>
-                  AI Engineer · Co-Founder · Freelance Developer
+                  AI Engineer · Freelance Developer
                 </p>
               </div>
 
@@ -869,7 +869,7 @@ export default function App() {
                 Dhayanithi Anandan
               </h1>
               <p style={{ fontFamily: ser, color: '#a1a1aa', fontSize: '15px', letterSpacing: '0.15em', marginBottom: '20px' }}>
-                AI Engineer · Co-Founder · Freelance Developer
+                AI Engineer · Freelance Developer
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 {['AI and Automation', 'Full-Stack', 'Machine Learning', 'Open to Freelance'].map(tag => (
@@ -935,8 +935,8 @@ export default function App() {
                   fontFamily: ser, lineHeight: 1.78, fontSize: '16px',
                   color: dark ? '#d4d4d8' : '#292524', marginBottom: '16px',
                 }}>
-                  Building AI-powered systems that ship to production and stay there. RAG architectures,
-                  MLOps pipelines, agents, and the full-stack web applications around them. Currently an{' '}
+                  Building AI-powered systems that ship to production and stay there. RAG architectures, MCP,
+                  AI Agents, Agentic AI and the full-stack web applications around them. Currently an{' '}
                   <a href="https://montraelectric.com" target="_blank" rel="noopener noreferrer"
                     style={{ color: c.link, fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: '3px' }}>
                     AI Engineer at Montra Electric
@@ -945,7 +945,7 @@ export default function App() {
                   vehicle manufacturer.
                 </p>
                 <p style={{ fontFamily: ser, lineHeight: 1.75, fontSize: '14px', color: dark ? '#a1a1aa' : '#44403c', marginBottom: '16px' }}>
-                  Alongside that: co-founder of{' '}
+                  Alongside that, I work with{' '}
                   <a href="https://digvian.com" target="_blank" rel="noopener noreferrer"
                     style={{ color: c.link, fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: '3px' }}>
                     Digvian
